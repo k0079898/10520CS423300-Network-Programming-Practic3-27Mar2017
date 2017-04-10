@@ -27,7 +27,7 @@ int main(int argc,char **argv){
 	bzero(&servaddr,sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	servaddr.sin_port = htons(9860);
+	servaddr.sin_port = htons(5000);
 	bind(listenfd,(struct sockaddr*)&servaddr,sizeof(servaddr));
 	listen(listenfd,1024);
 	maxfd = listenfd; /* initialize */
@@ -61,6 +61,7 @@ int main(int argc,char **argv){
 				if ( (n = read(sockfd, line, MAXLINE)) == 0) {
 					/* connection closed by client */
 					close(sockfd);
+					printf("Client is closed\n");
 					FD_CLR(sockfd, &allset);
 					client[i] = -1;
 				} else {

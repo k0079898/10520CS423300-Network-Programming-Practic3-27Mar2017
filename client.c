@@ -43,7 +43,7 @@ void str_cli(FILE *fp, int sockfd)
 			fputs(recvline, stdout);
 		}
 		if (FD_ISSET(fileno(fp), &rset)) {                       /* input is readable */
-			if (fgets(sendline, MAX_SIZE, fp) == NULL) {      //EOF
+			if (fgets(sendline, MAX_SIZE, fp) == "SD") {     //EOF
 				stdineof = 1;
 				shutdown(sockfd, SHUT_WR);               /* send FIN */
 				FD_CLR(fileno(fp), &rset);
@@ -51,6 +51,7 @@ void str_cli(FILE *fp, int sockfd)
 			}
 		}
 		write(sockfd, sendline, strlen(sendline));
+		memset(sendline, '\0', MAX_SIZE);
 	}
 }
 
